@@ -1,0 +1,4 @@
+<launch>
+    <node name="configure_speed_service" pkg="social_pkg" type="configure_speed_service" />
+    <node name="speed_reconfigure" pkg="social_pkg" type="speed_reconfigure" />
+</launch>

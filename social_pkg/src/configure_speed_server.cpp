@@ -5,11 +5,11 @@ bool configure(social_pkg::configure_speed::Request &req,
 {
         if(req.detected){
             ROS_INFO("PEOPLE DETECTED. REDUCING SPEED.");
-            system("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_trans_vel 0.30");
+            system("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_vel_trans 0.25");
         }
         else{
             ROS_INFO("NO PEOPLE DETECTED. RETURNING TO DEFAULT SPEED.");
-            system("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_trans_vel 0.55");
+            system("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_vel_trans 0.55");
         }
 
         res.state = true;

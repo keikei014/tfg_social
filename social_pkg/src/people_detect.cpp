@@ -2,6 +2,7 @@
 
 People_Detect::People_Detect(){
     pub = nh.advertise<std_msgs::String>("presence",1000);
+    detection = true;
 }
 
 void People_Detect::set_detection(){
@@ -28,6 +29,8 @@ int main(int argc, char** argv){
     People_Detect node;
 
     node.publish_detection();
+
+    ros::spinOnce();
 
     return 0;
 }

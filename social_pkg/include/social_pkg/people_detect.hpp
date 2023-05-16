@@ -14,7 +14,7 @@ class People_Detect{
 
     private:
 
-        bool detection = true;
+        bool detection;
 
         ros::NodeHandle nh;
 
