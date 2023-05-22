@@ -215,8 +215,8 @@ add_dependencies(poses ${${PROJECT_NAME}_EXPORTED_TARGETS}
                 ${catkin_EXPORTED_TARGETS})  
 # Auxiliar node for publishing the poses (should not be neccessary)
 
-#add_executable(publisher src/poses_publisher.cpp)
-#target_link_libraries(publisher ${catkin_LIBRARIES})
-#add_dependencies(publisher ${${PROJECT_NAME}_EXPORTED_TARGETS}
-#                                ${catkin_EXPORTED_TARGETS})  
+add_executable(poses_publisher src/poses_publisher.cpp)
+target_link_libraries(poses_publisher ${catkin_LIBRARIES})
+add_dependencies(poses_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                               ${catkin_EXPORTED_TARGETS})  
                 

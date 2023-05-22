@@ -10,6 +10,8 @@ class Poses_Publisher{
 
         void Publish_Poses(geometry_msgs::PoseArray poses);
 
+        ros::ServiceClient get_client();
+
         geometry_msgs::PoseArray poses;
 
     private:

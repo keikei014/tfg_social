@@ -19,6 +19,7 @@ void People_Detect::publish_detection(){
         std_msgs::String message;
         message.data = "true";
         pub.publish(message);
+        ROS_INFO("THE PUBLISH METHOD WAS CALLED.");
     }
 
 }
@@ -29,8 +30,6 @@ int main(int argc, char** argv){
     People_Detect node;
 
     node.publish_detection();
-
-    ros::spinOnce();
-
+    
     return 0;
 }

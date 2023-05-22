@@ -208,9 +208,9 @@ include_directories(
 
 # Speed configuration service
 
-add_executable(configure_speed_service src/configure_speed_server.cpp)
-target_link_libraries(configure_speed_service ${catkin_LIBRARIES})
-add_dependencies(configure_speed_service ${${PROJECT_NAME}_EXPORTED_TARGETS}
+add_executable(configure_speed_server src/configure_speed_server.cpp)
+target_link_libraries(configure_speed_server ${catkin_LIBRARIES})
+add_dependencies(configure_speed_server ${${PROJECT_NAME}_EXPORTED_TARGETS}
                 ${catkin_EXPORTED_TARGETS})  
 
 # Speed reconfiguration node

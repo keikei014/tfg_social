@@ -8,6 +8,8 @@ void Speed_Reconfigure::detectionCallback(const std_msgs::String::ConstPtr& msg)
 
     const char* message = msg->data.c_str();
 
+    ROS_INFO(message);
+
     const char* check = "true";
 
     if (strcmp(message,check)){
