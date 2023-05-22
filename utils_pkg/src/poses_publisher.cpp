@@ -15,6 +15,7 @@ ros::ServiceClient Poses_Publisher::get_client(){
 void Poses_Publisher::Publish_Poses(geometry_msgs::PoseArray poses){
 
     pub.publish(poses);
+    ROS_INFO("SE HA INTENTADO PUBLICAR");
 
 }
 
@@ -28,14 +29,19 @@ int main(int argc, char **argv){
 
     if (publisher_node.get_client().call(poses_srv)){
 
-        while(ros::ok){
-            publisher_node.Publish_Poses(poses_srv.response.poses);
-            ROS_INFO("SE HA LLAMADO CON EXITO AL SERVICIO Y SE HA INTENTADO PUBLICAR");
-            ros::spinOnce();
-        }
+        publisher_node.Publish_Poses(poses_srv.response.poses);
+        ROS_INFO("SE HA LLAMADO CON EXITO AL SERVICIO");
 
+        // while(ros::ok){
+        //     ros::spinOnce();
+        // }
 
     }
+    else{
+        ROS_INFO("FALLO AL LLAMAR AL SERVICIO");
+    }
+
+
 
     return 0;
 }
