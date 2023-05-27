@@ -3,9 +3,6 @@
     <!-- setup the service that will perform the dynamic reconfiguration -->
     <node name="configure_speed_server" pkg="social_pkg" type="configure_speed_server" />
 
-    <!-- setup the service that returns the set of goals for the robot -->
-    <node name="poses" pkg="utils_pkg" type="poses" />
-
     <!-- setup move_base_sequence to send it the set of goals -->
     <node name="move_base_sequence" pkg="move_base_sequence" type="server.py">
        <param name="/move_base_sequence/is_repeating" value="True"/>
