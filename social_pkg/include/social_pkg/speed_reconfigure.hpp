@@ -1,5 +1,4 @@
 #include "ros/ros.h"
-#include "social_pkg/configure_speed.h"
 #include <stdlib.h>
 #include <cmath>
 #include "boost/format.hpp"
@@ -31,9 +30,5 @@ class Speed_Reconfigure{
         ros::Subscriber detection_sub;
 
         ros::Subscriber odom_sub;
-
-        // ros::ServiceClient client;
-
-        // social_pkg::configure_speed srv;
 
 };

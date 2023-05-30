@@ -56,10 +56,9 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   configure_speed.srv
- )
+#  add_service_files(
+#    FILES
+#  )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -206,13 +205,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-# Speed configuration service
-
-add_executable(configure_speed_server src/configure_speed_server.cpp)
-target_link_libraries(configure_speed_server ${catkin_LIBRARIES})
-add_dependencies(configure_speed_server ${${PROJECT_NAME}_EXPORTED_TARGETS}
-                ${catkin_EXPORTED_TARGETS})  
 
 # Speed reconfiguration node
 

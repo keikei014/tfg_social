@@ -56,10 +56,9 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 # Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  poses.srv
-)
+# add_service_files(
+#   FILES
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -207,13 +206,7 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-# Poses service
-
-add_executable(poses src/poses_service.cpp)
-target_link_libraries(poses ${catkin_LIBRARIES})
-add_dependencies(poses ${${PROJECT_NAME}_EXPORTED_TARGETS}
-                ${catkin_EXPORTED_TARGETS})  
-# Auxiliar node for publishing the poses (should not be neccessary)
+# Auxiliar node for publishing the poses
 
 add_executable(poses_publisher src/poses_publisher.cpp)
 target_link_libraries(poses_publisher ${catkin_LIBRARIES})
