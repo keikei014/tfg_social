@@ -33,9 +33,9 @@
     # Keyboard
     <include file="$(find missions_pkg)/launch/simbot_keyboard_control.launch" />
     
-    <!-- #==========#
+    #==========#
     ### RVIZ ###
     #==========#
-    <node name="rviz_player" pkg="rviz" type="rviz" args="-d $(find missions_pkg)/rviz/simbot_patrol.rviz"/> -->
+    <node name="rviz_player" pkg="rviz" type="rviz" args="-d $(find missions_pkg)/rviz/simbot_patrol.rviz"/>
           
 </launch>
