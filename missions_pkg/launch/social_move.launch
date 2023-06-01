@@ -31,7 +31,7 @@
     <include file="$(find missions_pkg)/launch/simbot_fake_loc.launch" />
     
     # Keyboard
-    <include file="$(find missions_pkg)/launch/simbot_keyboard_control.launch" />
+    <!-- <include file="$(find missions_pkg)/launch/simbot_keyboard_control.launch" /> -->
     
     #==========#
     ### RVIZ ###
