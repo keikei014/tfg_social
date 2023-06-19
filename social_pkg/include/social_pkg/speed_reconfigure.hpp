@@ -15,7 +15,7 @@ class Speed_Reconfigure{
 
         void detectionCallback(const geometry_msgs::PoseArray::ConstPtr &msg);
 
-        void odomCallback(const nav_msgs::Odometry::ConstPtr &msg);
+        void gtCallback(const nav_msgs::Odometry::ConstPtr &msg);
 
         geometry_msgs::Pose get_robotPose();
 
@@ -29,6 +29,6 @@ class Speed_Reconfigure{
 
         ros::Subscriber detection_sub;
 
-        ros::Subscriber odom_sub;
+        ros::Subscriber gt_sub;
 
 };
