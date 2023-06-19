@@ -2,7 +2,7 @@
 
 Speed_Reconfigure::Speed_Reconfigure(){
     detection_sub = nh.subscribe("people_detection", 1000, &Speed_Reconfigure::detectionCallback, this);
-    odom_sub = nh.subscribe("odom", 1000, &Speed_Reconfigure::odomCallback, this);
+    odom_sub = nh.subscribe("base_pose_ground_truth", 1000, &Speed_Reconfigure::odomCallback, this);
 }
 
 geometry_msgs::Pose Speed_Reconfigure::get_robotPose(){
