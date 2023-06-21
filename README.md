@@ -2,12 +2,12 @@
 Repositorio para Trabajo de Fin de Grado "Implementación de Comportamientos Sociales en un Robot Móvil"
 
 # Paquetes necesarios para el funcionamiento del repositorio (comandos para la versión noetic de ROS)
-sudo apt install ros-noetic-fake-localization
-sudo apt install ros-noetic-map-server
-sudo apt install ros-noetic-dwa-local-planner
-sudo apt install ros-noetic-move-base
-sudo apt install ros-noetic-gmapping
-sudo apt install ros-noetic-robot-state-publisher
+$ sudo apt install ros-noetic-fake-localization
+$ sudo apt install ros-noetic-map-server
+$ sudo apt install ros-noetic-dwa-local-planner
+$ sudo apt install ros-noetic-move-base
+$ sudo apt install ros-noetic-gmapping
+$ sudo apt install ros-noetic-robot-state-publisher
 
 # Listado de comportamientos sociales a implementar
 1. Modificación de la velocidad del robot en función de la distancia a las personas detectadas
