@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   geometry_msgs
+  people_msgs
   message_generation
 )
 
@@ -211,5 +212,10 @@ include_directories(
 add_executable(poses_publisher src/poses_publisher.cpp)
 target_link_libraries(poses_publisher ${catkin_LIBRARIES})
 add_dependencies(poses_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                               ${catkin_EXPORTED_TARGETS})  
+
+add_executable(pose_to_people src/pose_to_people.cpp)
+target_link_libraries(pose_to_people ${catkin_LIBRARIES})
+add_dependencies(pose_to_people ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                ${catkin_EXPORTED_TARGETS})  
                 

@@ -66,11 +66,11 @@ int main(int argc, char** argv){
 
     Speed_Reconfigure node;
 
-    ros::Rate rate(2);
+    //ros::Rate rate(2);
 
     while(ros::ok()){
         ros::spin();
-        rate.sleep();
+        //rate.sleep();
     }
 
 }
