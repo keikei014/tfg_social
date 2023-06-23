@@ -14,22 +14,5 @@ robot_radius: 0.26           #[m] radius of the robot shape for Giraff Robots (i
 #inflation_radius: 0.6
 
 
-# List of sensors that are going to be passing information to the costmap
-observation_sources: laser_scan laser2_scan laser_stage
-
-#sensor_id: {sensor_frame: [], data_type: [LaserScan/PointCloud], topic: [], marking: true, clearing: true}
-laser_scan: {sensor_frame: laser_link, data_type: LaserScan, topic: /laser_scan, marking: true, clearing: true}
-laser2_scan: {sensor_frame: laser2_link, data_type: LaserScan, topic: /laser2_scan, marking: true, clearing: true}
-laser_stage: {sensor_frame: laser_stage, data_type: LaserScan, topic: /laser_scan, marking: true, clearing: true}
-
-
-#Planners
-#---------
-base_global_planner: navfn/NavfnROS
-base_local_planner: dwa_local_planner/DWAPlannerROS
-#base_local_planner: base_local_planner/TrajectoryPlannerROS
-
-planner_frequency: 1.0
-controller_frequency: 20.0
-planner_patience: 5.0
-controller_patience: 5.0
+track_unknown_space: false
+footprint_clearing_enabled: true    # If true, the robot footprint will clear (mark as free) the space in which it travels.

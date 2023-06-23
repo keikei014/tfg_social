@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   nav_msgs
+  sensor_msgs
   message_generation
 )
 
@@ -211,11 +212,12 @@ include_directories(
 add_executable(speed_reconfigure src/speed_reconfigure.cpp)
 target_link_libraries(speed_reconfigure ${catkin_LIBRARIES})
 add_dependencies(speed_reconfigure ${${PROJECT_NAME}_EXPORTED_TARGETS}
-                ${catkin_EXPORTED_TARGETS})  
+                ${catkin_EXPORTED_TARGETS})
+                
+# Node that changes robot behaviour at narrow spaces
 
-# People detection node
+add_executable(narrow_space_bhv src/narrow_space_bhv.cpp)
+target_link_libraries(narrow_space_bhv ${catkin_LIBRARIES})
+add_dependencies(narrow_space_bhv ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                ${catkin_EXPORTED_TARGETS}) 
 
-add_executable(people_detect src/people_detect.cpp)
-target_link_libraries(people_detect ${catkin_LIBRARIES})
-add_dependencies(people_detect ${${PROJECT_NAME}_EXPORTED_TARGETS}
-                ${catkin_EXPORTED_TARGETS})  
