@@ -6,7 +6,7 @@ global_costmap:
     - {name: static_map, type: "costmap_2d::StaticLayer" }
     - {name: obstacles,  type: "costmap_2d::VoxelLayer"}
     - {name: inflation,  type: "costmap_2d::InflationLayer" }
-    #- {name: proxemic,   type: "social_navigation_layers::ProxemicLayer" }
+    # - {name: proxemic,   type: "social_navigation_layers::ProxemicLayer" }
     
   global_frame: map
   robot_base_frame: base_link
