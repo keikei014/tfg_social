@@ -1,0 +1,18 @@
+<launch>
+
+    <!-- setup the service that will perform the dynamic reconfiguration -->
+    <node name="configure_speed_server" pkg="social_pkg" type="configure_speed_server" />
+
+    <!-- setup move_base_sequence to send it the set of goals -->
+    <node name="move_base_sequence" pkg="move_base_sequence" type="server.py">
+       <param name="/move_base_sequence/is_repeating" value="True"/>
+       <param name="/move_base_sequence/abortion_behaviour" value="stop"/>
+    </node>
+
+    <!-- setup the node that will manage the robot speed according to human presence -->
+    <node name="speed_reconfigure" pkg="social_pkg" type="speed_reconfigure" />
+
+    <!-- run the node that sends the set of goals to move_base_sequence -->
+    <node name="poses_publisher" pkg="utils_pkg" type="poses_publisher" /> 
+    
+</launch>

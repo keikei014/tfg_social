@@ -1,0 +1,22 @@
+<!-- launch the move_base server -->
+
+<launch>    
+    
+    #================#
+    ### NAVIGATION ###
+    #================#
+    # MoveBase
+    <include file="$(find missions_pkg)/launch/simbot_move_base.launch" />
+    
+    # Map Server
+    <include file="$(find missions_pkg)/launch/simbot_map_server.launch">
+        <arg name="map_file" value="$(find missions_pkg)/maps/UMA_236_237.yaml" />
+    </include>
+    
+    # Localizator
+    <include file="$(find missions_pkg)/launch/simbot_fake_loc.launch" />
+    
+    # Keyboard
+    <include file="$(find missions_pkg)/launch/simbot_keyboard_control.launch" />
+         
+</launch>

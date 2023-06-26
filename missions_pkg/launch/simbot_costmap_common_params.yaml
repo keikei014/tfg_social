@@ -1,0 +1,18 @@
+########################################################################
+# Common parameters for the COSTMAP_2D pkg (navigation stack)
+########################################################################
+
+obstacle_range: 2.5 #Update costmap with information about obstacles that are within 2.5 meters of the base
+raytrace_range: 3.0 #Clear out space (remove obstacles) up to 3.0 meters away given a sensor reading
+
+# FOOTPRINT
+#-----------
+#footprint: [[0.35,0.25],[0.35,-0.25],[-0.35,-0.25],[-0.35,0.25]]
+#A circular footprint of 0.45 diameter
+#footprint: [[ 0.225,0.000 ], [ 0.208, 0.086 ],[ 0.159, 0.159 ],[ 0.086, 0.208 ], [ 0.000, 0.225 ], [ -0.086, 0.208 ], [ -0.159, 0.159 ], [ -0.208, 0.086 ], [ -0.225, 0.000 ],[ -0.208, -0.086 ], [ -0.159, -0.159 ], [ -0.086, -0.208 ], [ -0.000, -0.225 ], [ 0.086, -0.208 ], [ 0.159, -0.159 ], [ 0.208, -0.086 ]]    
+robot_radius: 0.26           #[m] radius of the robot shape for Giraff Robots (instead of the footprint)
+#inflation_radius: 0.6
+
+
+track_unknown_space: false
+footprint_clearing_enabled: true    # If true, the robot footprint will clear (mark as free) the space in which it travels.
