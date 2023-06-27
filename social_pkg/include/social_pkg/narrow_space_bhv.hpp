@@ -1,5 +1,7 @@
 #include "ros/ros.h"
-#include "sensor_msgs/LaserScan"
+#include "std_msgs/String.h"
+#include "sensor_msgs/LaserScan.h"
+#include "boost/format.hpp"
 
 class Narrow_Space_Bhv{
     public:
@@ -8,7 +10,7 @@ class Narrow_Space_Bhv{
 
         void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
 
-        void publish_NS(int is_ns);
+        void publish_NS(std_msgs::String is_ns);
 
     private:
 

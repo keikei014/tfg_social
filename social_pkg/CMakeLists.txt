@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   nav_msgs
   sensor_msgs
+  people_msgs
   message_generation
 )
 
@@ -219,5 +220,13 @@ add_dependencies(speed_reconfigure ${${PROJECT_NAME}_EXPORTED_TARGETS}
 add_executable(narrow_space_bhv src/narrow_space_bhv.cpp)
 target_link_libraries(narrow_space_bhv ${catkin_LIBRARIES})
 add_dependencies(narrow_space_bhv ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                ${catkin_EXPORTED_TARGETS})
+                
+# Node that prevents robot from interrupting interacting people
+
+add_executable(avoid_interruption src/avoid_interruption.cpp)
+target_link_libraries(avoid_interruption ${catkin_LIBRARIES})
+add_dependencies(avoid_interruption ${${PROJECT_NAME}_EXPORTED_TARGETS}
                 ${catkin_EXPORTED_TARGETS}) 
+
 

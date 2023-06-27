@@ -11,7 +11,7 @@ void Pose_To_People::posesCallback(const geometry_msgs::PoseArray::ConstPtr& msg
     people_msgs::Person person;
     people_msgs::People people;
 
-    person.header.frame_id = "map";
+    people.header.frame_id = "map";
 
     for(int i = 0; i < msg->poses.size(); ++i){
         person.position.x = msg->poses[i].position.x;

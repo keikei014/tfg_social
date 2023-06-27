@@ -9,19 +9,19 @@
 #-----------------------------------
 DWAPlannerROS:
 
- max_trans_vel: 0.8
+ max_trans_vel: 1.2
  min_trans_vel: 0.06
  max_vel_x: 0.8
  min_vel_x: 0.0
  max_vel_y: 0.0
  min_vel_y: 0.0
- max_rot_vel: 1.5           #rad 0.8rad = 45deg (aprox)
+ max_rot_vel: 5           #rad 0.8rad = 45deg (aprox)
  min_rot_vel: 0.2
  
  acc_lim_x: 20.0
  acc_lim_y: 0.0
  acc_lim_theta: 25.0
- acc_lim_trans: 20.0
+ acc_lim_trans: 15.0
  
  prune_plan: true
  xy_goal_tolerance: 0.2     #m
