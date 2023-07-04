@@ -20,7 +20,7 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
             double gamma_2 = atan2(2.0*(msg->poses[1].orientation.x*msg->poses[1].orientation.w + msg->poses[1].orientation.y*msg->poses[1].orientation.z),
                                  1 - 2 * (msg->poses[1].orientation.y*msg->poses[1].orientation.y + msg->poses[1].orientation.z*msg->poses[1].orientation.z));
             
-            if( abs(gamma_1 - gamma_2) < orientation_lim ){
+            if( (abs(gamma_1) + abs(gamma_2) < M_PI + orientation_lim) && (abs(gamma_1) + abs(gamma_2) > M_PI - orientation_lim) ){
                 
                 people_msgs::People people_msg;
                 people_msgs::Person person;

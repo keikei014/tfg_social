@@ -2,7 +2,7 @@
 # Common parameters for the COSTMAP_2D pkg (navigation stack)
 ########################################################################
 
-obstacle_range: 2.5 #Update costmap with information about obstacles that are within 2.5 meters of the base
+obstacle_range: 3.5 #Update costmap with information about obstacles that are within 2.5 meters of the base
 raytrace_range: 3.0 #Clear out space (remove obstacles) up to 3.0 meters away given a sensor reading
 
 # FOOTPRINT

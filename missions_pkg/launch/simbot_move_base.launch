@@ -5,10 +5,12 @@
 <launch>
   <arg name="launch_prefix" default="" />
   <arg name="global_planner_plugin" default="navfn/NavfnROS" />
+  <arg name="local_planner_plugin" default="dwa_local_planner/DWAPlannerROS" />
 
   <node pkg="move_base" type="move_base" name="move_base" respawn="false" launch-prefix="$(arg launch_prefix)">
   
     <param name="base_global_planner" value="$(arg global_planner_plugin)"/>
+    <param name="base_local_planner" value="$(arg local_planner_plugin)"/>
     
     ## Planners
     <rosparam file="$(find missions_pkg)/launch/simbot_global_planner_params.yaml" command="load" />

@@ -37,5 +37,11 @@
     ### RVIZ ###
     #==========#
     <node name="rviz_player" pkg="rviz" type="rviz" args="-d $(find missions_pkg)/rviz/simbot_patrol.rviz"/>
+
+    #==================#
+    ### SOCIAL NODES ###
+    #==================#
+
+    <node name="pose_to_people" pkg="utils_pkg" type="pose_to_people"/>
           
 </launch>
