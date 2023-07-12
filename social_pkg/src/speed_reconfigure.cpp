@@ -4,6 +4,7 @@
 Speed_Reconfigure::Speed_Reconfigure(){
     detection_sub = nh.subscribe("people_detection", 1000, &Speed_Reconfigure::detectionCallback, this);
     gt_sub = nh.subscribe("base_pose_ground_truth", 1000, &Speed_Reconfigure::gtCallback, this);
+    info_pub = nh.advertise<std_msgs::String>("/speed_info", 1000);
 }
 
 // simple getter function for private attribute robotPose
@@ -29,6 +30,8 @@ void Speed_Reconfigure::detectionCallback(const geometry_msgs::PoseArray::ConstP
 
     double distance;
 
+    std_msgs::String message;
+
     // maximum distance at which a person can be detected (set at the simulation)
     double min_distance = 4;
 
@@ -37,26 +40,31 @@ void Speed_Reconfigure::detectionCallback(const geometry_msgs::PoseArray::ConstP
 
         // calculate the distance to each person detected
         for(int i = 0; i < msg->poses.size(); ++i){
-        distance = sqrt(pow(robot.position.x - msg->poses[i].position.x,2) + 
-                        pow(robot.position.y - msg->poses[i].position.y,2) + 
-                        pow(robot.position.z - msg->poses[i].position.z,2));
+
+            distance = hypot(robot.position.x - msg->poses[i].position.x, robot.position.y - msg->poses[i].position.y);
 
             if(distance < min_distance){
                 min_distance = distance;
             }
 
-            ROS_INFO("SE HA MODIFICADO LA VELOCIDAD DEL ROBOT");
+            ROS_INFO("SE VA A MODIFICAR LA VELOCIDAD DEL ROBOT");
         }
     }
 
     // compute the new speed using the distance to the closer person
-    double speed = 0.1*min_distance;
+    double speed = 0.25*min_distance;
 
     // format the command that will be executed by the system() function
-    string message = str( boost::format("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_vel_trans %d") % speed );
+    string command = str( boost::format("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_vel_trans %d") % speed );
+
+    // format the information string
+    message.data = str( boost::format("People detected: %i, Distance to closest person: %d, Calculated speed: %d") % msg->poses.size() % min_distance % speed );
 
     // call system to perform the speed reconfiguration
-    system(message.c_str());
+    system(command.c_str());
+
+    // publish node information
+    info_pub.publish(message);
 
 }
 

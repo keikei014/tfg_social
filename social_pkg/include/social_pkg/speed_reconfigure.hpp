@@ -27,6 +27,8 @@ class Speed_Reconfigure{
 
         ros::NodeHandle nh;
 
+        ros::Publisher info_pub;
+
         ros::Subscriber detection_sub;
 
         ros::Subscriber gt_sub;
