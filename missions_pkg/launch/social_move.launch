@@ -43,5 +43,9 @@
     #==================#
 
     <node name="pose_to_people" pkg="utils_pkg" type="pose_to_people"/>
+
+    <node name="speed_reconfigure" pkg="social_pkg" type="speed_reconfigure"/>
+
+    <node name ="avoid_interruption" pkg="social_pkg" type="avoid_interruption"/>
           
 </launch>

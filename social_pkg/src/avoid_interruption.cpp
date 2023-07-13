@@ -25,7 +25,7 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
     // variables to store the Euler angles of the two people
     double roll_1, pitch_1, yaw_1, roll_2, pitch_2, yaw_2;
 
-    double distance;
+    double distance = 0;
 
     if( msg->poses.size() > 1 ){
         // distance = sqrt(pow(msg->poses[0].position.x-msg->poses[1].position.x, 2) -
