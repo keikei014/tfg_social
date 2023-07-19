@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <cmath>
+#include <numeric>
 #include "boost/format.hpp"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/PoseArray.h"

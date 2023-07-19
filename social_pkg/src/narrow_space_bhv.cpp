@@ -2,15 +2,18 @@
 
 Narrow_Space_Bhv::Narrow_Space_Bhv(){
 
+    // publisher initializers
     message_pub = nh.advertise<std_msgs::String>("/narrow_info",1000);
     goal_pub = nh.advertise<geometry_msgs::Pose>("/move_base_simple/goal", 1000);
 
+    // subscriber initializers
     laser_sub = nh.subscribe("laser_scan", 1000, &Narrow_Space_Bhv::laserCallback, this);
     gt_sub = nh.subscribe("base_pose_ground_truth", 1000, &Narrow_Space_Bhv::gtCallback, this);
     ppl_sub = nh.subscribe("people_detection", 1000, &Narrow_Space_Bhv::pplCallback, this);
 
 }
 
+// simple getters and setters for private variables
 void Narrow_Space_Bhv::set_Narrow(bool narrow){
     _narrow = narrow;
 }
@@ -35,6 +38,7 @@ geometry_msgs::Pose Narrow_Space_Bhv::get_robotPose(){
     return robotPose;
 }
 
+// simple publishing methods
 void Narrow_Space_Bhv::publish_NS(std_msgs::String is_ns){
     message_pub.publish(is_ns);
 }
@@ -49,12 +53,15 @@ void Narrow_Space_Bhv::gtCallback(const nav_msgs::Odometry::ConstPtr &msg){
     set_robotPose(msg->pose.pose);
 }
 
-/* This function uses a range of measures from the publish laser scan to determine whether
+/* This function uses a range of measures from the laser scan publisher to determine whether
    the robot is at a narrow space or not, and calculates a safety goal to be sent in case
    a person is detected while being at that narrow space */
 void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg){
 
     std_msgs::String message;
+    std_msgs::String is_narrow;
+
+    geometry_msgs::Pose goal;
 
     double accumulate = 0;
     double safe_accumulate_right = 0;
@@ -72,7 +79,7 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
     double avg_distance = accumulate/60;
 
     if( avg_distance < narrow_limit){
-        message.data = "NARROW SPACE";
+        is_narrow.data = "YES";
         set_Narrow(true);
 
         for( int i = 582; i < 612; i++){
@@ -83,7 +90,6 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
             safe_accumulate_right += msg->ranges[i];
         }
 
-        geometry_msgs::Pose goal;
         goal.position.x = get_robotPose().position.x + std::min(safe_accumulate_left, safe_accumulate_right)/30 - 0.3;
         goal.position.y = get_robotPose().position.y + 1.0;
         goal.orientation = get_robotPose().orientation;
@@ -91,10 +97,11 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
         set_SafetyGoal(goal);
     }
     else{
-        message.data = "WIDE SPACE";
+        is_narrow.data = "NO";
         set_Narrow(false);
     }
 
+    message.data = str( boost::format("NARROW SPACE: %s; SAFETY GOAL: [%d, %d]") % is_narrow.data % goal.position.x % goal.position.y );
     publish_NS(message);
 
 }
