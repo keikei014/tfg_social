@@ -2,8 +2,8 @@
 
 // constructor sets the two subscribers
 Speed_Reconfigure::Speed_Reconfigure(){
-    detection_sub = nh.subscribe("people_detection", 1000, &Speed_Reconfigure::detectionCallback, this);
-    gt_sub = nh.subscribe("base_pose_ground_truth", 1000, &Speed_Reconfigure::gtCallback, this);
+    detection_sub = nh.subscribe("people_detection", 1, &Speed_Reconfigure::detectionCallback, this);
+    gt_sub = nh.subscribe("base_pose_ground_truth", 1, &Speed_Reconfigure::gtCallback, this);
     info_pub = nh.advertise<std_msgs::String>("/speed_info", 1000);
 }
 
@@ -36,7 +36,7 @@ void Speed_Reconfigure::detectionCallback(const geometry_msgs::PoseArray::ConstP
     double min_distance = 4;
 
     // check if at least one person was detected
-    if(msg->poses.size()>0){
+    if( msg->poses.size() > 0 ){
 
         // calculate the distance to each person detected
         for(int i = 0; i < msg->poses.size(); ++i){
@@ -46,7 +46,6 @@ void Speed_Reconfigure::detectionCallback(const geometry_msgs::PoseArray::ConstP
             if(distance < min_distance){
                 min_distance = distance;
             }
-
             ROS_INFO("SE VA A MODIFICAR LA VELOCIDAD DEL ROBOT");
         }
     }
@@ -76,9 +75,9 @@ int main(int argc, char** argv){
 
     //ros::Rate rate(2);
 
-    while(ros::ok()){
-        ros::spin();
+  //  while(ros::ok()){
+    ros::spin();
         //rate.sleep();
-    }
+//    }
 
 }

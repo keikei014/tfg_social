@@ -57,9 +57,14 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
             std::vector<double> ori_1 {cos(yaw_1), sin(yaw_1)};
             std::vector<double> ori_2 {cos(yaw_2), sin(yaw_2)};
 
-            dot_product = std::inner_product( ori_1.begin(), ori_1.end(), ori_2.begin(), 0 );
+            // c++ function for computing inner product does not seem to work
+            //dot_product = std::inner_product( ori_1.begin(), ori_1.end(), ori_2.begin(), 0 );
+
+            // compute the dot product of the two orientation vectors
+            dot_product = ori_1[0]*ori_2[0] + ori_1[1]*ori_2[1];
             
-            if ( dot_product < 0 ){
+            // if two vectors are pointing at each other, their dot product will always be negative
+            if ( dot_product <= 0 ){
 
             //if( orientation_sum < M_PI + orientation_lim && orientation_sum > M_PI - orientation_lim ){
                 
@@ -74,7 +79,7 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
 
                 people_msg.people.push_back(person);
 
-                ROS_INFO("SE HAN DETECTADO DOS PERSONAS QUE ESTAN HABLANDO");
+                // ROS_INFO("SE HAN DETECTADO DOS PERSONAS QUE ESTAN HABLANDO");
                 
                 publishAvoid(people_msg);
             }
