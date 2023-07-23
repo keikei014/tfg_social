@@ -25,6 +25,9 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
     // variables to store the Euler angles of the two people
     double roll_1, pitch_1, yaw_1, roll_2, pitch_2, yaw_2;
 
+    // the dot_product will be used to check if two people are facing each other
+    double dot_product = 0;
+
     double distance = 0;
 
     if( msg->poses.size() > 1 ){
@@ -50,10 +53,20 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
             tf::Matrix3x3(quat_p1).getRPY(roll_1, pitch_1, yaw_1);
             tf::Matrix3x3(quat_p2).getRPY(roll_2, pitch_2, yaw_2);
 
-            // check if the two detected people are facing each other
-            orientation_sum = abs(yaw_1) + abs(yaw_2);
+            // turn the yaw angles into vectors
+            std::vector<double> ori_1 {cos(yaw_1), sin(yaw_1)};
+            std::vector<double> ori_2 {cos(yaw_2), sin(yaw_2)};
+
+            // c++ function for computing inner product does not seem to work
+            //dot_product = std::inner_product( ori_1.begin(), ori_1.end(), ori_2.begin(), 0 );
+
+            // compute the dot product of the two orientation vectors
+            dot_product = ori_1[0]*ori_2[0] + ori_1[1]*ori_2[1];
             
-            if( orientation_sum < M_PI + orientation_lim && orientation_sum > M_PI - orientation_lim ){
+            // if two vectors are pointing at each other, their dot product will always be negative
+            if ( dot_product <= 0 ){
+
+            //if( orientation_sum < M_PI + orientation_lim && orientation_sum > M_PI - orientation_lim ){
                 
                 // add aditional cost to the map to make sure the robot avoids any interruption
                 people_msgs::People people_msg;
@@ -66,7 +79,7 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
 
                 people_msg.people.push_back(person);
 
-                ROS_INFO("SE HAN DETECTADO DOS PERSONAS QUE ESTAN HABLANDO");
+                // ROS_INFO("SE HAN DETECTADO DOS PERSONAS QUE ESTAN HABLANDO");
                 
                 publishAvoid(people_msg);
             }
@@ -76,7 +89,7 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
     // format and publish the information string
     std_msgs::String info_msg;
 
-    info_msg.data = str( boost::format("First person orientation: %d Second person orientation: %d Orientation diff: %d Distance between them: %d") % yaw_1 % yaw_2 % orientation_sum % distance);
+    info_msg.data = str( boost::format("First person orientation: %d; Second person orientation: %d; Dot product: %d; Distance between them: %d") % yaw_1 % yaw_2 % dot_product % distance);
 
     info_pub.publish(info_msg);
 }
