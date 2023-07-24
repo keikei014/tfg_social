@@ -4,9 +4,9 @@
 global_costmap:
   plugins:
     - {name: static_map, type: "costmap_2d::StaticLayer" }
-    #- {name: obstacles,  type: "costmap_2d::ObstacleLayer"}
+    - {name: obstacles,  type: "costmap_2d::ObstacleLayer"}
     - {name: inflation,  type: "costmap_2d::InflationLayer" }
-    #- {name: proxemic,   type: "social_navigation_layers::ProxemicLayer" }
+    - {name: proxemic,   type: "social_navigation_layers::ProxemicLayer" }
     
   global_frame: map
   robot_base_frame: base_link
@@ -26,7 +26,7 @@ global_costmap:
     cost_scaling_factor: 3.0
     
   proxemic:
-    amplitude: 10.0
+    amplitude: 20.0
     covariance: 0.4
     cutoff: 1.0
     factor: 1.0

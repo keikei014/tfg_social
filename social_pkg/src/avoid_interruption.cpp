@@ -9,7 +9,7 @@ Avoid_Interruption::Avoid_Interruption(){
     info_pub = nh.advertise<std_msgs::String>("/information", 1000);
 
     // initialize subscription to people detector simulator
-    sub = nh.subscribe("/people_detection", 1000, &Avoid_Interruption::interactionCallback, this);
+    sub = nh.subscribe("/people_detection", 1, &Avoid_Interruption::interactionCallback, this);
 }
 
 void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::ConstPtr& msg){

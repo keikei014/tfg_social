@@ -46,6 +46,8 @@
 
     <node name="speed_reconfigure" pkg="social_pkg" type="speed_reconfigure"/>
 
-    <node name ="avoid_interruption" pkg="social_pkg" type="avoid_interruption"/>
+    <node name="avoid_interruption" pkg="social_pkg" type="avoid_interruption"/>
+
+    <node name="narrow_space_bhv" pkg="social_pkg" type="narrow_space_bhv"/>
           
 </launch>

@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/Pose.h"
+#include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/PoseArray.h"
 #include "sensor_msgs/LaserScan.h"
 #include "nav_msgs/Odometry.h"
@@ -16,9 +17,9 @@ class Narrow_Space_Bhv{
 
         bool get_Narrow();
 
-        void set_SafetyGoal(geometry_msgs::Pose goal);
+        void set_SafetyGoal(geometry_msgs::PoseStamped goal);
 
-        geometry_msgs::Pose get_SafetyGoal();
+        geometry_msgs::PoseStamped get_SafetyGoal();
 
         void set_robotPose(geometry_msgs::Pose pose);
 
@@ -26,7 +27,7 @@ class Narrow_Space_Bhv{
 
         void publish_NS(std_msgs::String is_ns);
 
-        void publish_goal(geometry_msgs::Pose goal);
+        void publish_goal(geometry_msgs::PoseStamped goal);
 
         void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
 
@@ -38,7 +39,7 @@ class Narrow_Space_Bhv{
 
         bool _narrow = false;
 
-        geometry_msgs::Pose safety_goal;
+        geometry_msgs::PoseStamped safety_goal;
 
         geometry_msgs::Pose robotPose;
 

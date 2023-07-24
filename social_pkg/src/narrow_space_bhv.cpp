@@ -4,12 +4,12 @@ Narrow_Space_Bhv::Narrow_Space_Bhv(){
 
     // publisher initializers
     message_pub = nh.advertise<std_msgs::String>("/narrow_info",1000);
-    goal_pub = nh.advertise<geometry_msgs::Pose>("/move_base_simple/goal", 1000);
+    goal_pub = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1000);
 
     // subscriber initializers
-    laser_sub = nh.subscribe("laser_scan", 1000, &Narrow_Space_Bhv::laserCallback, this);
-    gt_sub = nh.subscribe("base_pose_ground_truth", 1000, &Narrow_Space_Bhv::gtCallback, this);
-    ppl_sub = nh.subscribe("people_detection", 1000, &Narrow_Space_Bhv::pplCallback, this);
+    laser_sub = nh.subscribe("laser_scan", 1, &Narrow_Space_Bhv::laserCallback, this);
+    gt_sub = nh.subscribe("base_pose_ground_truth", 1, &Narrow_Space_Bhv::gtCallback, this);
+    ppl_sub = nh.subscribe("people_detection", 1, &Narrow_Space_Bhv::pplCallback, this);
 
 }
 
@@ -22,11 +22,11 @@ bool Narrow_Space_Bhv::get_Narrow(){
     return _narrow;
 }
 
-void Narrow_Space_Bhv::set_SafetyGoal(geometry_msgs::Pose goal){
+void Narrow_Space_Bhv::set_SafetyGoal(geometry_msgs::PoseStamped goal){
     safety_goal = goal;
 }
 
-geometry_msgs::Pose Narrow_Space_Bhv::get_SafetyGoal(){
+geometry_msgs::PoseStamped Narrow_Space_Bhv::get_SafetyGoal(){
     return safety_goal;
 }
 
@@ -43,7 +43,7 @@ void Narrow_Space_Bhv::publish_NS(std_msgs::String is_ns){
     message_pub.publish(is_ns);
 }
 
-void Narrow_Space_Bhv::publish_goal(geometry_msgs::Pose goal){
+void Narrow_Space_Bhv::publish_goal(geometry_msgs::PoseStamped goal){
     goal_pub.publish(goal);
 }
 
@@ -61,7 +61,8 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
     std_msgs::String message;
     std_msgs::String is_narrow;
 
-    geometry_msgs::Pose goal;
+    geometry_msgs::PoseStamped goal;
+    goal.header.frame_id = "map";
 
     double accumulate = 0;
     double safe_accumulate_right = 0;
@@ -90,9 +91,9 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
             safe_accumulate_right += msg->ranges[i];
         }
 
-        goal.position.x = get_robotPose().position.x + std::min(safe_accumulate_left, safe_accumulate_right)/30 - 0.3;
-        goal.position.y = get_robotPose().position.y + 1.0;
-        goal.orientation = get_robotPose().orientation;
+        goal.pose.position.x = get_robotPose().position.x + std::min(safe_accumulate_left, safe_accumulate_right)/30 - 0.3;
+        goal.pose.position.y = get_robotPose().position.y + 1.0;
+        goal.pose.orientation = get_robotPose().orientation;
 
         set_SafetyGoal(goal);
     }
@@ -101,7 +102,7 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
         set_Narrow(false);
     }
 
-    message.data = str( boost::format("NARROW SPACE: %s; SAFETY GOAL: [%d, %d]") % is_narrow.data % goal.position.x % goal.position.y );
+    message.data = str( boost::format("NARROW SPACE: %s; SAFETY GOAL: [%d, %d]") % is_narrow.data % goal.pose.position.x % goal.pose.position.y );
     publish_NS(message);
 
 }
