@@ -39,6 +39,8 @@ class Narrow_Space_Bhv{
 
         bool _narrow = false;
 
+        bool _moving = false;
+
         geometry_msgs::PoseStamped safety_goal;
 
         geometry_msgs::Pose robotPose;
