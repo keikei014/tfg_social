@@ -62,12 +62,12 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
     std_msgs::String is_narrow;
 
     geometry_msgs::PoseStamped goal;
-    goal.header.frame_id = "map";
+    goal.header.frame_id = "base_link";
 
     double accumulate = 0;
     double safe_accumulate_right = 0;
     double safe_accumulate_left = 0;
-    double narrow_limit = 2.2;
+    double narrow_limit = 1.8;
 
     for( int i = 70; i < 100; i++ ){
         accumulate += msg->ranges[i];
@@ -91,8 +91,8 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
             safe_accumulate_right += msg->ranges[i];
         }
 
-        goal.pose.position.x = get_robotPose().position.x + std::min(safe_accumulate_left, safe_accumulate_right)/30 - 0.3;
-        goal.pose.position.y = get_robotPose().position.y + 1.0;
+        goal.pose.position.x = get_robotPose().position.y + 1.0;
+        goal.pose.position.y = get_robotPose().position.x + std::min(safe_accumulate_left, safe_accumulate_right)/30 - 0.3;
         goal.pose.orientation = get_robotPose().orientation;
 
         set_SafetyGoal(goal);
@@ -110,8 +110,9 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
 /* This callback function sends the safety goal to the navigation stack if a person
    is detected while being at a narrow space */
 void Narrow_Space_Bhv::pplCallback(const geometry_msgs::PoseArray::ConstPtr &msg){
-    if( msg->poses.size() > 1 && get_Narrow() ){
+    if( msg->poses.size() > 0 && get_Narrow() ){
         publish_goal(get_SafetyGoal());
+        ROS_INFO("PUBLICANDO OBJETIVO DE SEGURIDAD");
     }
 }
 

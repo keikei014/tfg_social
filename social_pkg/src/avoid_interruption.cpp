@@ -3,10 +3,10 @@
 Avoid_Interruption::Avoid_Interruption(){
 
     // initialize publisher for the extra cost if interaction is detected
-    pub = nh.advertise<people_msgs::People>("/people",1000);
+    pub = nh.advertise<people_msgs::People>("/people",10);
 
     // initialize publisher for information string
-    info_pub = nh.advertise<std_msgs::String>("/information", 1000);
+    info_pub = nh.advertise<std_msgs::String>("/information", 10);
 
     // initialize subscription to people detector simulator
     sub = nh.subscribe("/people_detection", 1, &Avoid_Interruption::interactionCallback, this);
@@ -79,7 +79,7 @@ void Avoid_Interruption::interactionCallback(const geometry_msgs::PoseArray::Con
 
                 people_msg.people.push_back(person);
 
-                // ROS_INFO("SE HAN DETECTADO DOS PERSONAS QUE ESTAN HABLANDO");
+                ROS_INFO("SE HAN DETECTADO DOS PERSONAS QUE ESTAN HABLANDO");
                 
                 publishAvoid(people_msg);
             }
