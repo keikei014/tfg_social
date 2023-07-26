@@ -17,6 +17,10 @@ class Narrow_Space_Bhv{
 
         bool get_Narrow();
 
+        void set_Moving(bool moving);
+
+        bool get_Moving();
+
         void set_SafetyGoal(geometry_msgs::PoseStamped goal);
 
         geometry_msgs::PoseStamped get_SafetyGoal();

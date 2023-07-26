@@ -2,8 +2,8 @@
 
 Pose_To_People::Pose_To_People(){
 
-    pub = nh.advertise<people_msgs::People>("/people",1000);
-    sub = nh.subscribe("people_detection", 1000, &Pose_To_People::posesCallback, this);
+    pub = nh.advertise<people_msgs::People>("/people",10);
+    sub = nh.subscribe("people_detection", 1, &Pose_To_People::posesCallback, this);
 
 }
 

@@ -22,6 +22,14 @@ bool Narrow_Space_Bhv::get_Narrow(){
     return _narrow;
 }
 
+void Narrow_Space_Bhv::set_Moving(bool moving){
+    _moving = moving;
+}
+
+bool Narrow_Space_Bhv::get_Moving(){
+    return _moving;
+}
+
 void Narrow_Space_Bhv::set_SafetyGoal(geometry_msgs::PoseStamped goal){
     safety_goal = goal;
 }
@@ -79,25 +87,36 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
 
     double avg_distance = accumulate/60;
 
-    if( avg_distance < narrow_limit){
+    if( avg_distance < narrow_limit ){
         is_narrow.data = "YES";
         set_Narrow(true);
 
-        for( int i = 582; i < 612; i++){
-            safe_accumulate_left += msg->ranges[i];
+        if( !get_Moving() ){
+            for( int i = 582; i < 612; i++){
+                safe_accumulate_left += msg->ranges[i];
+            }
+
+            for( int i = 100; i < 130; i++){
+                safe_accumulate_right += msg->ranges[i];
+            }
+
+            goal.pose.position.x = 1.0;
+
+            if( safe_accumulate_left > safe_accumulate_right ){
+                goal.pose.position.y = safe_accumulate_left/30.0 - 0.56;
+            }
+            else {
+                goal.pose.position.y = -safe_accumulate_right/30.0 + 0.56;
+            }
+
+            goal.pose.orientation = get_robotPose().orientation;
+      
         }
 
-        for( int i = 100; i < 130; i++){
-            safe_accumulate_right += msg->ranges[i];
-        }
+        set_SafetyGoal(goal);  
 
-        goal.pose.position.x = get_robotPose().position.y + 1.0;
-        goal.pose.position.y = get_robotPose().position.x + std::min(safe_accumulate_left, safe_accumulate_right)/30 - 0.3;
-        goal.pose.orientation = get_robotPose().orientation;
-
-        set_SafetyGoal(goal);
     }
-    else{
+    else if( !get_Moving() ){
         is_narrow.data = "NO";
         set_Narrow(false);
     }
@@ -111,8 +130,14 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
    is detected while being at a narrow space */
 void Narrow_Space_Bhv::pplCallback(const geometry_msgs::PoseArray::ConstPtr &msg){
     if( msg->poses.size() > 0 && get_Narrow() ){
-        publish_goal(get_SafetyGoal());
-        ROS_INFO("PUBLICANDO OBJETIVO DE SEGURIDAD");
+        if( !get_Moving() ){
+            publish_goal(get_SafetyGoal());
+            ROS_INFO("PUBLICANDO OBJETIVO DE SEGURIDAD");
+            set_Moving(true);
+        }
+    }
+    else{
+        set_Moving(false);
     }
 }
 
