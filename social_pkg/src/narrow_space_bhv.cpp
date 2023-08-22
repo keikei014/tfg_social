@@ -103,10 +103,10 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
             goal.pose.position.x = 1.0;
 
             if( safe_accumulate_left > safe_accumulate_right ){
-                goal.pose.position.y = safe_accumulate_left/30.0 - 0.56;
+                goal.pose.position.y = -safe_accumulate_left/30.0 + 0.56;
             }
             else {
-                goal.pose.position.y = -safe_accumulate_right/30.0 + 0.56;
+                goal.pose.position.y = safe_accumulate_right/30.0 - 0.56;
             }
 
             goal.pose.orientation = get_robotPose().orientation;
