@@ -51,7 +51,7 @@ void Speed_Reconfigure::detectionCallback(const geometry_msgs::PoseArray::ConstP
     }
 
     // compute the new speed using the distance to the closer person
-    double speed = 0.25*min_distance;
+    double speed = 0.15*min_distance;
 
     // format the command that will be executed by the system() function
     string command = str( boost::format("rosrun dynamic_reconfigure dynparam set /move_base/DWAPlannerROS max_vel_trans %d") % speed );

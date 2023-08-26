@@ -42,7 +42,7 @@
     ### UTILS ###
     #===========#
 
-    <node name="pose_to_people" pkg="utils_pkg" type="pose_to_people"/>
+    <!-- <node name="pose_to_people" pkg="utils_pkg" type="pose_to_people"/> -->
 
     <!-- #==================#
     ### SOCIAL NODES ###
