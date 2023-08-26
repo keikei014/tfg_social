@@ -129,7 +129,7 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
 /* This callback function sends the safety goal to the navigation stack if a person
    is detected while being at a narrow space */
 void Narrow_Space_Bhv::pplCallback(const geometry_msgs::PoseArray::ConstPtr &msg){
-    if( msg->poses.size() > 0 && get_Narrow() ){
+    if( msg->poses.size() > 0 ){
         if( !get_Moving() ){
             publish_goal(get_SafetyGoal());
             ROS_INFO("PUBLICANDO OBJETIVO DE SEGURIDAD");
