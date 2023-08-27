@@ -13,6 +13,8 @@ class Narrow_Space_Bhv{
 
         Narrow_Space_Bhv();
 
+        geometry_msgs::PoseStamped current_goal;
+
         void set_Narrow(bool narrow);
 
         bool get_Narrow();
@@ -24,6 +26,10 @@ class Narrow_Space_Bhv{
         void set_SafetyGoal(geometry_msgs::PoseStamped goal);
 
         geometry_msgs::PoseStamped get_SafetyGoal();
+
+        void set_RecoveryGoal(geometry_msgs::PoseStamped goal);
+
+        geometry_msgs::PoseStamped get_RecoveryGoal();
 
         void set_robotPose(geometry_msgs::Pose pose);
 
@@ -39,6 +45,8 @@ class Narrow_Space_Bhv{
 
         void gtCallback(const nav_msgs::Odometry::ConstPtr& msg);
 
+        void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
+
     private:
 
         bool _narrow = false;
@@ -46,6 +54,8 @@ class Narrow_Space_Bhv{
         bool _moving = false;
 
         geometry_msgs::PoseStamped safety_goal;
+
+        geometry_msgs::PoseStamped recovery_goal;
 
         geometry_msgs::Pose robotPose;
 
@@ -60,5 +70,7 @@ class Narrow_Space_Bhv{
         ros::Subscriber laser_sub;
 
         ros::Subscriber ppl_sub;
+
+        ros::Subscriber goal_sub;
 
 };

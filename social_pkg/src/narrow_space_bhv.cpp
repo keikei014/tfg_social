@@ -10,6 +10,7 @@ Narrow_Space_Bhv::Narrow_Space_Bhv(){
     laser_sub = nh.subscribe("laser_scan", 1, &Narrow_Space_Bhv::laserCallback, this);
     gt_sub = nh.subscribe("base_pose_ground_truth", 1, &Narrow_Space_Bhv::gtCallback, this);
     ppl_sub = nh.subscribe("people_detection", 1, &Narrow_Space_Bhv::pplCallback, this);
+    goal_sub = nh.subscribe("move_base/current_goal", 1, &Narrow_Space_Bhv::goalCallback, this);
 
 }
 
@@ -38,6 +39,14 @@ geometry_msgs::PoseStamped Narrow_Space_Bhv::get_SafetyGoal(){
     return safety_goal;
 }
 
+void Narrow_Space_Bhv::set_RecoveryGoal(geometry_msgs::PoseStamped goal){
+    recovery_goal = goal;
+}
+
+geometry_msgs::PoseStamped Narrow_Space_Bhv::get_RecoveryGoal(){
+    return recovery_goal;
+}
+
 void Narrow_Space_Bhv::set_robotPose(geometry_msgs::Pose pose){
     robotPose = pose;
 }
@@ -61,6 +70,12 @@ void Narrow_Space_Bhv::gtCallback(const nav_msgs::Odometry::ConstPtr &msg){
     set_robotPose(msg->pose.pose);
 }
 
+/* This callback function stores the current navigation goal for later recovery
+   once no people is detected in the narrow space */
+void Narrow_Space_Bhv::goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg){
+    current_goal = *msg;
+}
+
 /* This function uses a range of measures from the laser scan publisher to determine whether
    the robot is at a narrow space or not, and calculates a safety goal to be sent in case
    a person is detected while being at that narrow space */
@@ -68,6 +83,7 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
 
     std_msgs::String message;
     std_msgs::String is_narrow;
+    geometry_msgs::PoseStamped recovery;
 
     geometry_msgs::PoseStamped goal;
     goal.header.frame_id = "base_link";
@@ -122,16 +138,20 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
         set_Narrow(false);
     }
 
-    message.data = str( boost::format("NARROW SPACE: %s; SAFETY GOAL: [%d, %d]") % is_narrow.data % goal.pose.position.x % goal.pose.position.y );
+    recovery = get_RecoveryGoal();
+
+    message.data = str( boost::format("NARROW SPACE: %s; SAFETY GOAL: [%d, %d]; RECOVERY: [%d, %d]") % is_narrow.data % goal.pose.position.x % goal.pose.position.y % recovery.pose.position.x % recovery.pose.position.y);
     publish_NS(message);
 
 }
 
 /* This callback function sends the safety goal to the navigation stack if a person
-   is detected while being at a narrow space */
+   is detected while being at a narrow space, and recovers the original navigation
+   goal when the person is no longer detected */
 void Narrow_Space_Bhv::pplCallback(const geometry_msgs::PoseArray::ConstPtr &msg){
     if( msg->poses.size() > 0 ){
         if( !get_Moving() ){
+            set_RecoveryGoal(current_goal);
             publish_goal(get_SafetyGoal());
             ROS_INFO("PUBLICANDO OBJETIVO DE SEGURIDAD");
             set_Moving(true);
@@ -139,6 +159,7 @@ void Narrow_Space_Bhv::pplCallback(const geometry_msgs::PoseArray::ConstPtr &msg
     }
     else{
         set_Moving(false);
+        publish_goal(get_RecoveryGoal());
     }
 }
 
