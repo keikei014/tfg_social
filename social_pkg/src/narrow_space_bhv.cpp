@@ -3,8 +3,8 @@
 Narrow_Space_Bhv::Narrow_Space_Bhv(){
 
     // publisher initializers
-    message_pub = nh.advertise<std_msgs::String>("/narrow_info",1000);
-    goal_pub = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1000);
+    message_pub = nh.advertise<std_msgs::String>("/narrow_info",10);
+    goal_pub = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10);
 
     // subscriber initializers
     laser_sub = nh.subscribe("laser_scan", 1, &Narrow_Space_Bhv::laserCallback, this);
@@ -100,16 +100,17 @@ void Narrow_Space_Bhv::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg
                 safe_accumulate_right += msg->ranges[i];
             }
 
-            goal.pose.position.x = 1.0;
+            goal.pose.position.x = 1.5;
 
-            if( safe_accumulate_left > safe_accumulate_right ){
-                goal.pose.position.y = -safe_accumulate_left/30.0 + 0.56;
+            if( safe_accumulate_left < safe_accumulate_right ){
+                goal.pose.position.y = -safe_accumulate_left/30.0 + 0.16;
             }
             else {
-                goal.pose.position.y = safe_accumulate_right/30.0 - 0.56;
+                goal.pose.position.y = safe_accumulate_right/30.0 - 0.16;
             }
 
-            goal.pose.orientation = get_robotPose().orientation;
+            //goal.pose.orientation = get_robotPose().orientation;
+            goal.pose.orientation.w = 1;
       
         }
 
